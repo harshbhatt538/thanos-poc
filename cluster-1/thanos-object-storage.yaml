@@ -8,6 +8,6 @@ stringData:
   thanos.yaml: |
     type: S3
     config:
-      bucket: thanos-poc-storage27
+      bucket: thanos-poc***
       endpoint: s3.us-west-2.amazonaws.com
       region: us-west-2
