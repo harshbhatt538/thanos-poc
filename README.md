@@ -30,6 +30,7 @@ This repository provides a scalable solution for monitoring two Amazon EKS clust
 Why Needed: EKS clusters are the foundation for running Kubernetes workloads. Creating eks-cluster-1 and eks-cluster-2 provides isolated environments for multi-cluster monitoring, hosting Prometheus, Thanos, and Grafana. update-kubeconfig configures kubectl access, enabling cluster management and deployment.
 
 Set Up IAM Roles and Policies:
+----------------------------------
 Use eksctl or AWS IAM to create roles (eksctl-eks-cluster-1-nodegroup-ng--NodeInstanceRole-*, eksctl-eks-cluster-2-nodegroup-ng--NodeInstanceRole-*) with AmazonEKSWorkerNodePolicy, AmazonEKS_CNI_Policy, and AmazonSSMManagedInstanceCore.
 
 Create S3 policy: aws iam create-policy --policy-name ThanosS3Access --policy-document file://s3-policy.json (custom for thanos-poc-storage27).
