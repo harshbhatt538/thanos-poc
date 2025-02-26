@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: thanos-sidecar-config
+  namespace: monitoring
+type: Opaque
+stringData:
+  thanos.yaml: |
+    type: S3
+    config:
+      bucket: thanos-poc-storage27
+      endpoint: s3.us-west-2.amazonaws.com
+      region: us-west-2

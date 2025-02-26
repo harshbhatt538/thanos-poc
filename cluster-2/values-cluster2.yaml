@@ -1,0 +1,46 @@
+prometheus:
+  prometheusSpec:
+    serviceAccountName: thanos
+    thanos:
+      baseImage: quay.io/thanos/thanos
+      version: v0.35.0
+      objectStorageConfig:
+        name: thanos-sidecar-config
+        key: thanos.yaml
+    externalLabels:
+      cluster: eks-cluster-2  # Unique label for Cluster 2
+    additionalScrapeConfigs:
+      - job_name: prometheus
+        scrape_interval: 30s
+        scrape_protocols:
+          - OpenMetricsText1.0.0
+          - PrometheusText0.0.4
+        static_configs:
+          - targets: ["localhost:9090"]
+    containers:
+      - name: thanos-sidecar
+        args:
+          - sidecar
+          - --prometheus.url=http://127.0.0.1:9090/
+          - --grpc-address=:10901
+          - --http-address=:10902
+          - --log.level=debug  # Fixed: no space after "debug"
+          - --log.format=logfmt
+          - --objstore.config-file=/etc/thanos/thanos.yaml
+          - --tsdb.path=/prometheus
+          - --shipper.upload-compacted
+        volumeMounts:
+          - name: thanos-config
+            mountPath: /etc/thanos
+            readOnly: true
+          - name: prometheus-prometheus-kube-prometheus-prometheus-db
+            mountPath: /prometheus
+    volumes:
+      - name: thanos-config
+        secret:
+          secretName: thanos-sidecar-config
+    additionalArgs:
+      - name: storage.tsdb.min-block-duration
+        value: 30m
+      - name: storage.tsdb.max-block-duration
+        value: 30m
