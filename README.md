@@ -13,14 +13,6 @@ This repository provides a scalable solution for monitoring two Amazon EKS clust
 - **Amazon S3:** Stores historical blocks for long-term retention.
 - **Public LoadBalancer:** Exposes `eks-cluster-2`’s Sidecar for cross-cluster access.
 
-### Diagram
-[Cluster 1: eks-cluster-1]      [Cluster 2: eks-cluster-2]
-| Prometheus + Thanos Sidecar  | Prometheus + Thanos Sidecar (Public)
-| Thanos Querier               |
-| Grafana                      |
-v                              v
-[S3: thanos-poc-storage - Historical Data]
-
 
 ## Prerequisites
 - AWS EKS, IAM, S3, and VPC in `us-west-2`.
